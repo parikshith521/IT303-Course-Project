@@ -1,10 +1,12 @@
-import { VStack, Text } from "@chakra-ui/react";
-
+import { VStack, Text, Center } from "@chakra-ui/react";
+import { PreferenceForm } from './PreferenceForm'
 
 export const MajorAllocation = () => {
     return (
-        <VStack>
-            <Text>MajorAllocation</Text>
-        </VStack>
+        <>
+            <Center w={'100vw'} h={'100vh'}>
+                <PreferenceForm />
+            </Center>
+        </>
     );
 }

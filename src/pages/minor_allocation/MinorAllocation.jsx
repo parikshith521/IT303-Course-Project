@@ -1,9 +1,12 @@
-import { VStack, Text } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
+import { PreferenceForm } from './PreferenceForm'
 
 export const MinorAllocation = () => {
     return (
-        <VStack>
-            <Text>MinorAllocation</Text>
-        </VStack>
+        <>
+            <Center w={'100vw'} h={'100vh'}>
+                <PreferenceForm />
+            </Center>
+        </>
     );
 }
