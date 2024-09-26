@@ -29,6 +29,7 @@ import {
 
 import projectImage from '../assets/project.png';
 
+//exports cards for the major and minor project allotments
 export const DisplayCards = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalMessage, setModalMessage] = useState('');
@@ -178,7 +179,7 @@ export const DisplayCards = () => {
                     <ModalBody color="black" fontFamily="'Poppins', serif" mb="20px">
                         {modalMessage === 'Are you currently in an internship?' && (
                             <>
-                                <Text fontFamily='Poppins, sans-serif'>Are you currently doing an intership?</Text>
+                                <Text fontFamily='Poppins, sans-serif'>Are you currently doing an internship?</Text>
                                 <RadioGroup onChange={handleInternshipChange} value={inInternship}>
                                     <Stack direction="row">
                                         <Radio value="yes">Yes</Radio>
