@@ -9,7 +9,6 @@ import {
     Flex,
     Image,
     Box,
-    Spacer,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -25,7 +24,8 @@ import {
 
 
 import projectImage from '../assets/project.png';  // Ensure the path is correct
-function DisplayCards() {
+
+export const DisplayCards = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalMessage, setModalMessage] = useState('');
 
@@ -43,8 +43,10 @@ function DisplayCards() {
 
                 maxW={{ base: "95%", sm: "90%", md: "80%", lg: "container.lg", xl: "container.xl" }}
                 mt='120px' ml='20%'
+                alignContent="center"
+                justifyContent="center"
             >
-                <Heading fontFamily='Oswald'>Welcome Back User, <Text as="span" color='orange.500'>Project Details</Text> Are Given Below: </Heading>
+                <Heading fontFamily="'Poppins', serif" textAlign="center">Project Details Are Given Below </Heading>
                 <Card
                     mt='35px'
                     ml="20px"  // Shift card slightly to the right
@@ -58,9 +60,9 @@ function DisplayCards() {
                     <Flex justify="space-between" align="center">
                         <Box>
                             <CardHeader>
-                                <Heading size='xl' fontFamily='poppins' color="black">Major Project</Heading>
+                                <Heading size='xl' fontFamily="'Poppins', serif" color="black">Major Project</Heading>
                             </CardHeader>
-                            <CardBody fontFamily='poppins'>
+                            <CardBody fontFamily="'Poppins', serif">
                                 <Button
                                     colorScheme='orange'
                                     onClick={() => handleViewDetails('major')}
@@ -87,9 +89,9 @@ function DisplayCards() {
                     <Flex justify="space-between" align="center">
                         <Box>
                             <CardHeader>
-                                <Heading size='xl' fontFamily='poppins' color="black">Minor Project</Heading>
+                                <Heading size='xl' fontFamily="'Poppins', serif" color="black">Minor Project</Heading>
                             </CardHeader>
-                            <CardBody fontFamily='poppins'>
+                            <CardBody fontFamily="'Poppins', serif">
                                 <Button
                                     colorScheme='orange'
                                     onClick={() => handleViewDetails('minor')}
@@ -111,7 +113,7 @@ function DisplayCards() {
                 <ModalContent bg="white">
                     <ModalHeader>Your Details</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody color="black" fontFamily='poppins'>
+                    <ModalBody color="black" fontFamily="'Poppins', serif">
                         {modalMessage} {/* Display the relevant message */}
                     </ModalBody>
                     <ModalFooter>
@@ -126,5 +128,4 @@ function DisplayCards() {
 }
 
 
-export default DisplayCards;
 
