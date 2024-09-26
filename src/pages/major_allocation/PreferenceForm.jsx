@@ -37,7 +37,7 @@ export const PreferenceForm = () => {
 
         // Check if any preference is empty
         if (values.some(value => value === '')) {
-            return `All numbers must be between 1 and ${Guides.length}.`;
+            return `All fields must contain numbers between 1 and ${Guides.length}.`;
         }
 
         // Check if all preferences are numbers between 1 and N
@@ -73,29 +73,29 @@ export const PreferenceForm = () => {
     };
 
     return (
-        <Box maxW="auto" mx="auto" mt={8} py={4} px={10} borderWidth="1px" borderRadius="md" boxShadow="md">
-            <Heading as="h2" size="lg" textAlign="center" mt={6} mb={8}>
+        <Box maxW="100vw" maxH="100vh" mx="20px" mt={8} py={4} px={['auto', 'auto', 'auto', '150px']} borderWidth="1px" borderRadius="md" boxShadow="md">
+            <Heading fontFamily="'Sanchez', serif" size="xl" textAlign="center" mt={6} mb={8}>
                 Major Project Allocation Form
             </Heading>
-            <Text textAlign="center" mb={6}>Enter Guide Preference Order (1 being the highest preference)</Text>
+            <Text fontFamily="'Poppins', sans-serif" textAlign="center" mb={6}>Enter Guide Preference Order (1 being the highest preference)</Text>
 
             {/* Create a table to display the data */}
             <Table variant="simple">
                 <Thead>
                     <Tr>
-                        <Th>Name</Th>
-                        <Th>Specialization</Th>
-                        <Th>Email</Th>
-                        <Th>Preference</Th>
+                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Name</Th>
+                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Specialization</Th>
+                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Email</Th>
+                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Preference</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     {Guides.map((person) => (
                         <Tr key={person.id}>
-                            <Td>{person.name}</Td>
-                            <Td>{person.specialization}</Td>
-                            <Td>{person.email}</Td>
-                            <Td maxW={'250px'}>
+                            <Td fontFamily="'Poppins', sans-serif">{person.name}</Td>
+                            <Td fontFamily="'Poppins', sans-serif">{person.specialization}</Td>
+                            <Td fontFamily="'Poppins', sans-serif">{person.email}</Td>
+                            <Td fontFamily="'Poppins', sans-serif" maxW={'250px'}>
                                 <Input
                                     type="number"
                                     placeholder="Enter preference"
@@ -109,8 +109,13 @@ export const PreferenceForm = () => {
             </Table>
 
             {/* Center the submit button */}
-            <Box display="flex" justifyContent="center" mt={6}>
-                <Button colorScheme="teal" onClick={handleSubmit}>
+            <Box display="flex" justifyContent="center" my={6}>
+                <Button
+                    fontFamily="'Poppins', sans-serif"
+                    colorScheme="orange"
+                    onClick={handleSubmit}
+                    _hover={{ bg: 'orange.600', transform: 'scale(1.05)', transition: 'all 0.2s ease-in-out' }}
+                >
                     Submit Preferences
                 </Button>
             </Box>
@@ -119,14 +124,14 @@ export const PreferenceForm = () => {
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{isSuccess ? 'Success' : 'Error'}</ModalHeader>
+                    <ModalHeader fontFamily="'Sanchez', serif">{isSuccess ? 'Success' : 'Error'}</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody fontFamily="'Poppins', sans-serif">
                         {modalMessage}
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
+                        <Button colorScheme={isSuccess ? 'green' : 'red'} mr={3} onClick={onClose}>
                             Close
                         </Button>
                     </ModalFooter>
