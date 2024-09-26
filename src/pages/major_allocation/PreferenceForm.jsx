@@ -4,11 +4,13 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, useDisclosure
 } from '@chakra-ui/react';
 
+//import sample guide data
 import { Guides } from './GuideData';
 
+//component that displays a prefence form for guide allocation
 export const PreferenceForm = () => {
 
-    // State to store the preferences
+    // static setup to store preferences & messages
     const [preferences, setPreferences] = useState(
         Guides.reduce((acc, person) => {
             acc[person.id] = '';
@@ -16,14 +18,11 @@ export const PreferenceForm = () => {
         }, {})
     );
 
-    // State to store validation messages
     const [modalMessage, setModalMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    // Chakra UI modal control
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    // Handler to update the preference for a person
     const handlePreferenceChange = (id, value) => {
         setPreferences({
             ...preferences,
@@ -31,22 +30,19 @@ export const PreferenceForm = () => {
         });
     };
 
-    // Validation function
+    // validating user inputs
     const validatePreferences = () => {
         const values = Object.values(preferences);
 
-        // Check if any preference is empty
         if (values.some(value => value === '')) {
             return `All fields must contain numbers between 1 and ${Guides.length}.`;
         }
 
-        // Check if all preferences are numbers between 1 and N
         const invalidValues = values.filter(value => value < 1 || value > Guides.length);
         if (invalidValues.length > 0) {
             return `All numbers must be between 1 and ${Guides.length}.`;
         }
 
-        // Check if there are duplicate preferences
         const uniqueValues = new Set(values);
         if (uniqueValues.size !== values.length) {
             return 'Each number must be unique.';
@@ -55,7 +51,7 @@ export const PreferenceForm = () => {
         return '';
     };
 
-    // Handler to submit the form
+    // submit handler that's connected to the modal
     const handleSubmit = () => {
         const validationError = validatePreferences();
 
@@ -76,14 +72,14 @@ export const PreferenceForm = () => {
         <Box
             maxW="100vw"
             maxH="100vh"
-            mx={["10px", "20px", "40px"]}  // Adjust horizontal margin based on screen size
+            mx={["10px", "20px", "40px"]}
             mt={8}
             py={4}
-            px={['10px', '20px', '30px', '150px']}  // Adjust padding for different screen sizes
+            px={['10px', '20px', '30px', '150px']}
             borderWidth="1px"
             borderRadius="md"
             boxShadow="md"
-            overflowX="auto"  // Handle horizontal overflow for smaller screens
+            overflowX="auto"
         >
             <Heading fontFamily="'Sanchez', serif" size={['lg', 'xl']} textAlign="center" mt={6} mb={8}>
                 Major Project Allocation Form
@@ -95,7 +91,7 @@ export const PreferenceForm = () => {
 
             {/* Make table responsive */}
             <Box overflowX="auto">
-                <Table variant="simple" size="sm">
+                <Table variant="simple">
                     <Thead>
                         <Tr>
                             <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Name</Th>
@@ -116,9 +112,8 @@ export const PreferenceForm = () => {
                                         placeholder="Enter preference"
                                         value={preferences[person.id]}
                                         onChange={(e) => handlePreferenceChange(person.id, e.target.value)}
-                                        fontSize={['xs', 'sm']}  // Adjust input font size for small screens
-                                        minWidth="60px"
-                                        width={['60px', '100px']}  // Make the input responsive for mobile
+                                        fontSize={['xs', 'sm']}
+
                                     />
                                 </Td>
                             </Tr>
@@ -127,14 +122,13 @@ export const PreferenceForm = () => {
                 </Table>
             </Box>
 
-            {/* Center the submit button */}
             <Box display="flex" justifyContent="center" my={6}>
                 <Button
                     fontFamily="'Poppins', sans-serif"
                     colorScheme="orange"
                     onClick={handleSubmit}
                     _hover={{ bg: 'orange.600', transform: 'scale(1.05)', transition: 'all 0.2s ease-in-out' }}
-                    fontSize={['xs', 'md']}  // Adjust button size
+                    fontSize={['xs', 'md']}
                 >
                     Submit Preferences
                 </Button>

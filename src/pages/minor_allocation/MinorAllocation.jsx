@@ -1,6 +1,8 @@
 import { Center, VStack } from "@chakra-ui/react";
 import { PreferenceForm } from './PreferenceForm'
 import { NavBar } from "../../components/NavBar";
+
+//minor project guide allocation page
 export const MinorAllocation = () => {
     return (
         <>

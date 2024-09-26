@@ -4,12 +4,9 @@ import {
     Container,
     Card,
     CardHeader,
-    CardBody,
     Heading,
     Button,
-    Flex,
     Image,
-    Box,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -18,127 +15,121 @@ import {
     ModalBody,
     ModalFooter,
     useDisclosure,
-    ChakraProvider,
-    Text
+    CardFooter,
+    HStack,
+    Spacer
 } from '@chakra-ui/react';
 
 
-
-import projectImage from '../assets/project.png';  // Ensure the path is correct
+//fetch assets
+import projectImage from '../assets/project.png';
 
 export const DisplayCards = () => {
+
+    //overlay setup
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalMessage, setModalMessage] = useState('');
 
+    //handling ineligibilities
     const handleViewDetails = (projectType) => {
         if (projectType === 'major') {
-            setModalMessage('You are eligible to Apply!');
+            setModalMessage('You are have already been alloted a Guide!');
         } else {
             setModalMessage('You are not eligible to apply , because you have gotten an Internship!');
         }
-        onOpen(); // Open the modal
+        onOpen();
     };
+
     return (
         <>
             <Container
                 maxW={{ base: "95%", sm: "90%", md: "80%", lg: "container.lg", xl: "container.xl" }}
-                mt="120px"
-                mx="auto"  // Center the container horizontally
+                my="120px"
+                mx="auto"
+                // Center the container horizontally
                 alignContent="center"
                 justifyContent="center"
-                border="1px solid"  // Add a border to the container
-                borderColor="gray.200"  // Light gray border
-                boxShadow="md"  // Initial shadow
-                transition="box-shadow 0.3s ease"  // Smooth shadow transition
-                _hover={{ boxShadow: "xl" }}  // Shadow effect on hover
             >
-                <Heading fontFamily="'Poppins', serif" textAlign="center">
+                <Heading fontFamily="'Sanchez', serif" textAlign="center">
                     Project Details Are Given Below
                 </Heading>
 
                 {/* Major Project Card */}
                 <Card
-                    mt="50px"  // Increased top margin
-                    mx="auto"  // Center the card horizontally
-                    p="6"
+                    mt="50px"
+                    mx="auto"
+                    p="0"
                     boxShadow="lg"
-                    borderRadius="md"
-                    maxW="85%"  // Set card width, making it responsive
-                    transition="background 0.3s ease"  // Smooth transition for background
-                    _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
+                    borderRadius="lg"
+                    maxW="85%"
+                    _hover={{ boxShadow: "xl" }}
                 >
-                    <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }}>
-                        <Box textAlign={{ base: "center", md: "left" }}>
-                            <CardHeader>
-                                <Heading size="xl" fontFamily="'Poppins', serif" color="black">
-                                    Major Project
-                                </Heading>
-                            </CardHeader>
-                            <CardBody fontFamily="'Poppins', serif">
-                                <Button
-                                    colorScheme="orange"
-                                    onClick={() => handleViewDetails('major')}
-                                    _hover={{ bg: 'orange.300', color: 'white' }}
-                                    mb={{ base: 2, md: 0 }}  // Add margin between buttons for mobile
-                                >
-                                    Apply
-                                </Button>
-                                <Link to="/major-allocation">
-                                    <Button
-                                        ml={{ md: 4 }}
-                                        colorScheme="orange"
-                                        _hover={{ bg: 'orange.300', color: 'white' }}
-                                    >
-                                        Apply
-                                    </Button>
-                                </Link>
-                            </CardBody>
-                        </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" mt={{ base: 4, md: 0 }} />
-                    </Flex>
+                    <CardHeader borderTopRadius="md" _hover={{ bg: 'orange.400' }} transition="background 0.3s ease">
+                        <HStack>
+                            <Heading p="5" size={['md', 'lg']} fontFamily="'Poppins', serif" color="black">
+                                Major Project
+                            </Heading>
+                            <Spacer />
+                            <Image mr="10px" src={projectImage} alt="Project" boxSize={['50px', '80px']} objectFit="cover" mt={{ base: 4, md: 0 }} />
+                        </HStack>
+                    </CardHeader>
+                    <CardFooter px="10" mb="2" fontFamily="'Poppins', serif">
+                        <Button mr="5px"
+                            colorScheme="orange"
+                            onClick={() => handleViewDetails('major')}
+                            _hover={{ bg: 'orange.300', color: 'white' }}
+                            mb={{ base: 2, md: 0 }}
+                        >
+                            Apply
+                        </Button>
+                        <Link to="/major-allocation">
+                            <Button ml="5px"
+                                colorScheme="orange"
+                                _hover={{ bg: 'orange.300', color: 'white' }}
+                            >
+                                Apply
+                            </Button>
+                        </Link>
+                    </CardFooter>
                 </Card>
 
                 {/* Minor Project Card */}
                 <Card
-                    mt="50px"  // Increased top margin
-                    mb="50px"  // Increased bottom margin
-                    mx="auto"  // Center the card horizontally
-                    p="6"
+                    mt="50px"
+                    mx="auto"
+                    p="0"
                     boxShadow="lg"
-                    borderRadius="md"
-                    maxW="85%"  // Set card width, making it responsive
-                    transition="background 0.3s ease"  // Smooth transition for background
-                    _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
+                    borderRadius="lg"
+                    maxW="85%"
+                    _hover={{ boxShadow: "xl" }}
                 >
-                    <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }}>
-                        <Box textAlign={{ base: "center", md: "left" }}>
-                            <CardHeader>
-                                <Heading size="xl" fontFamily="'Poppins', serif" color="black">
-                                    Minor Project
-                                </Heading>
-                            </CardHeader>
-                            <CardBody fontFamily="'Poppins', serif">
-                                <Button
-                                    colorScheme="orange"
-                                    onClick={() => handleViewDetails('minor')}
-                                    _hover={{ bg: 'orange.300', color: 'white' }}
-                                    mb={{ base: 2, md: 0 }}  // Add margin between buttons for mobile
-                                >
-                                    Apply
-                                </Button>
-                                <Link to="/minor-allocation">
-                                    <Button
-                                        ml={{ md: 4 }}
-                                        colorScheme="orange"
-                                        _hover={{ bg: 'orange.300', color: 'white' }}
-                                    >
-                                        Apply
-                                    </Button>
-                                </Link>
-                            </CardBody>
-                        </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" mt={{ base: 4, md: 0 }} />
-                    </Flex>
+                    <CardHeader borderTopRadius="md" _hover={{ bg: 'orange.400' }} transition="background 0.3s ease">
+                        <HStack>
+                            <Heading p="5" size={['md', 'lg']} fontFamily="'Poppins', serif" color="black">
+                                Minor Project
+                            </Heading>
+                            <Spacer />
+                            <Image mr="10px" src={projectImage} alt="Project" boxSize={['50px', '80px']} objectFit="cover" mt={{ base: 4, md: 0 }} />
+                        </HStack>
+                    </CardHeader>
+                    <CardFooter px="10" mb="2" fontFamily="'Poppins', serif">
+                        <Button mr="5px"
+                            colorScheme="orange"
+                            onClick={() => handleViewDetails('minor')}
+                            _hover={{ bg: 'orange.300', color: 'white' }}
+                            mb={{ base: 2, md: 0 }}
+                        >
+                            Apply
+                        </Button>
+                        <Link to="/minor-allocation">
+                            <Button ml="5px"
+                                colorScheme="orange"
+                                _hover={{ bg: 'orange.300', color: 'white' }}
+                            >
+                                Apply
+                            </Button>
+                        </Link>
+                    </CardFooter>
                 </Card>
             </Container>
 
@@ -151,7 +142,7 @@ export const DisplayCards = () => {
                     <ModalHeader>Your Details</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody color="black" fontFamily="'Poppins', serif">
-                        {modalMessage} {/* Display the relevant message */}
+                        {modalMessage}
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="orange" onClick={onClose}>

@@ -1,3 +1,6 @@
+
+//sample data
+
 export const Guides = [
     { id: 1, name: 'Akul Sharma', specialization: 'Networks', email: 'sharma@nitk.edu.in' },
     { id: 2, name: 'Kavya Nair', specialization: 'Artificial Intelligence', email: 'nair@nitk.edu.in' },
