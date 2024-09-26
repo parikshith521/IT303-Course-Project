@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Container,
     Card,
@@ -17,27 +17,60 @@ import {
     useDisclosure,
     CardFooter,
     HStack,
-    Spacer
+    Spacer,
+    FormControl,
+    FormLabel,
+    Input,
+    RadioGroup,
+    Radio,
+    Text,
+    Stack
 } from '@chakra-ui/react';
 
-
-//fetch assets
 import projectImage from '../assets/project.png';
 
 export const DisplayCards = () => {
-
-    //overlay setup
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalMessage, setModalMessage] = useState('');
+    const [inInternship, setInInternship] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        rollNumber: '',
+        companyName: '',
+        managerName: '',
+        duration: ''
+    });
+    const navigate = useNavigate();
 
-    //handling ineligibilities
+    // Handle view details through modal
     const handleViewDetails = (projectType) => {
         if (projectType === 'major') {
-            setModalMessage('You are have already been alloted a Guide!');
+            setModalMessage('You are already assigned a Guide!');
         } else {
-            setModalMessage('You are not eligible to apply , because you have gotten an Internship!');
+            setModalMessage('Are you currently in an internship?');
         }
+        setInInternship(null);
         onOpen();
+    };
+
+    // Handle form input change
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    // Handle form submission
+    const handleSubmit = () => {
+        console.log(formData);
+        onClose();
+    };
+
+    // Handle radio button change
+    const handleInternshipChange = (value) => {
+        setInInternship(value);
+        if (value === 'no') {
+            onClose();
+            navigate('/minor-allocation');
+        }
     };
 
     return (
@@ -46,7 +79,6 @@ export const DisplayCards = () => {
                 maxW={{ base: "95%", sm: "90%", md: "80%", lg: "container.lg", xl: "container.xl" }}
                 my="120px"
                 mx="auto"
-                // Center the container horizontally
                 alignContent="center"
                 justifyContent="center"
             >
@@ -74,7 +106,8 @@ export const DisplayCards = () => {
                         </HStack>
                     </CardHeader>
                     <CardFooter px="10" mb="2" fontFamily="'Poppins', serif">
-                        <Button mr="5px"
+                        <Button
+                            mr="5px"
                             colorScheme="orange"
                             onClick={() => handleViewDetails('major')}
                             _hover={{ bg: 'orange.300', color: 'white' }}
@@ -83,7 +116,8 @@ export const DisplayCards = () => {
                             Apply
                         </Button>
                         <Link to="/major-allocation">
-                            <Button ml="5px"
+                            <Button
+                                ml="5px"
                                 colorScheme="orange"
                                 _hover={{ bg: 'orange.300', color: 'white' }}
                             >
@@ -113,7 +147,8 @@ export const DisplayCards = () => {
                         </HStack>
                     </CardHeader>
                     <CardFooter px="10" mb="2" fontFamily="'Poppins', serif">
-                        <Button mr="5px"
+                        <Button
+                            mr="5px"
                             colorScheme="orange"
                             onClick={() => handleViewDetails('minor')}
                             _hover={{ bg: 'orange.300', color: 'white' }}
@@ -122,7 +157,8 @@ export const DisplayCards = () => {
                             Apply
                         </Button>
                         <Link to="/minor-allocation">
-                            <Button ml="5px"
+                            <Button
+                                ml="5px"
                                 colorScheme="orange"
                                 _hover={{ bg: 'orange.300', color: 'white' }}
                             >
@@ -133,27 +169,59 @@ export const DisplayCards = () => {
                 </Card>
             </Container>
 
-
-
-            {/* Modal for View Details */}
+            {/* Modal for Internship Details */}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent bg="white">
                     <ModalHeader>Your Details</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody color="black" fontFamily="'Poppins', serif">
-                        {modalMessage}
+                    <ModalBody color="black" fontFamily="'Poppins', serif" mb="20px">
+                        {modalMessage === 'Are you currently in an internship?' && (
+                            <>
+                                <Text fontFamily='Poppins, sans-serif'>Are you currently doing an intership?</Text>
+                                <RadioGroup onChange={handleInternshipChange} value={inInternship}>
+                                    <Stack direction="row">
+                                        <Radio value="yes">Yes</Radio>
+                                        <Radio value="no">No</Radio>
+                                    </Stack>
+                                </RadioGroup>
+
+                                {inInternship === 'yes' && (
+                                    <form>
+                                        <FormControl mt="4">
+                                            <FormLabel>Name</FormLabel>
+                                            <Input name="name" value={formData.name} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Roll Number</FormLabel>
+                                            <Input name="rollNumber" value={formData.rollNumber} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Company Name</FormLabel>
+                                            <Input name="companyName" value={formData.companyName} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Manager's Name</FormLabel>
+                                            <Input name="managerName" value={formData.managerName} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Duration (in months)</FormLabel>
+                                            <Input name="duration" value={formData.duration} onChange={handleInputChange} />
+                                        </FormControl>
+                                    </form>
+                                )}
+                            </>
+                        )}
                     </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme="orange" onClick={onClose}>
-                            Close
-                        </Button>
-                    </ModalFooter>
+                    {inInternship === 'yes' && (
+                        <ModalFooter>
+                            <Button colorScheme="orange" onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                        </ModalFooter>
+                    )}
                 </ModalContent>
             </Modal>
         </>
     );
 }
-
-
-
