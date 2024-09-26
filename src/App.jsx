@@ -1,42 +1,20 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Card,
-  CardHeader,
-  CardBody,
-  Heading,
-  Button,
-  Flex,
-  Image,
-  Box,
-  Spacer,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  ChakraProvider,
-} from '@chakra-ui/react';
-
-import NavBar from './components/NavBar';
-
-import projectImage from './assets/project.png';  // Ensure the path is correct
-import DisplayCards from './components/DisplayCards';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { MajorAllocation } from './pages/major_allocation/MajorAllocation'
+import { MinorAllocation } from './pages/minor_allocation/MinorAllocation'
+import { Home } from './pages/home/Home.jsx'
 
 function App() {
 
 
   return (
     <>
-      <NavBar />
-
-
-
-      <DisplayCards />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/major-allocation' element={<MajorAllocation />} />
+          <Route path='/minor-allocation' element={<MinorAllocation />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
