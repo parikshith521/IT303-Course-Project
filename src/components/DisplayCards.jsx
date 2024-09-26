@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Container,
     Card,
@@ -40,68 +41,98 @@ export const DisplayCards = () => {
     return (
         <>
             <Container
-
                 maxW={{ base: "95%", sm: "90%", md: "80%", lg: "container.lg", xl: "container.xl" }}
-                mt='120px' ml='20%'
+                mt="120px"
+                mx="auto"  // Center the container horizontally
                 alignContent="center"
                 justifyContent="center"
             >
-                <Heading fontFamily="'Poppins', serif" textAlign="center">Project Details Are Given Below </Heading>
+                <Heading fontFamily="'Poppins', serif" textAlign="center">
+                    Project Details Are Given Below
+                </Heading>
+
+                {/* Major Project Card */}
                 <Card
-                    mt='35px'
-                    ml="20px"  // Shift card slightly to the right
+                    mt="35px"
+                    mx="auto"  // Center the card horizontally
                     p="6"
                     boxShadow="lg"
                     borderRadius="md"
-                    maxW="85%"  // Set card width
+                    maxW="85%"  // Set card width, making it responsive
                     transition="background 0.3s ease"  // Smooth transition for background
                     _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
                 >
                     <Flex justify="space-between" align="center">
                         <Box>
                             <CardHeader>
-                                <Heading size='xl' fontFamily="'Poppins', serif" color="black">Major Project</Heading>
+                                <Heading size="xl" fontFamily="'Poppins', serif" color="black">
+                                    Major Project
+                                </Heading>
                             </CardHeader>
                             <CardBody fontFamily="'Poppins', serif">
                                 <Button
-                                    colorScheme='orange'
+                                    colorScheme="orange"
                                     onClick={() => handleViewDetails('major')}
                                     _hover={{ bg: 'orange.300', color: 'white' }}  // Change button color on card hover
                                 >
                                     Apply
                                 </Button> {/* Open modal on click */}
+                                {/* Fill Preferences Button */}
+                                <Link to="/major-allocation">
+                                    <Button
+                                        ml={4}  // Add margin between buttons
+                                        colorScheme="orange"
+                                        _hover={{ bg: 'orange.300', color: 'white' }}  // Hover effect for the button
+                                    >
+                                        Apply
+                                    </Button>
+                                </Link>
                             </CardBody>
                         </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius='10%' />
+                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" />
                     </Flex>
                 </Card>
 
+                {/* Minor Project Card */}
                 <Card
-                    mt='30px'
-                    ml="20px"  // Shift card slightly to the right
+                    mt="30px"
+                    mb="30px"  // Added margin-bottom to the second card
+                    mx="auto"  // Center the card horizontally
                     p="6"
                     boxShadow="lg"
                     borderRadius="md"
-                    maxW="85%"  // Set card width
+                    maxW="85%"  // Set card width, making it responsive
                     transition="background 0.3s ease"  // Smooth transition for background
                     _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
                 >
                     <Flex justify="space-between" align="center">
                         <Box>
                             <CardHeader>
-                                <Heading size='xl' fontFamily="'Poppins', serif" color="black">Minor Project</Heading>
+                                <Heading size="xl" fontFamily="'Poppins', serif" color="black">
+                                    Minor Project
+                                </Heading>
                             </CardHeader>
                             <CardBody fontFamily="'Poppins', serif">
                                 <Button
-                                    colorScheme='orange'
+                                    colorScheme="orange"
                                     onClick={() => handleViewDetails('minor')}
                                     _hover={{ bg: 'orange.300', color: 'white' }}  // Change button color on card hover
                                 >
                                     Apply
                                 </Button> {/* Open modal on click */}
+                                {/* Fill Preferences Button */}
+                                <Link to="/minor-allocation">
+                                    <Button
+                                        ml={4}  // Add margin between buttons
+                                        colorScheme="orange"
+                                        _hover={{ bg: 'orange.300', color: 'white' }}  // Hover effect for the button
+                                    >
+                                        Apply
+                                    </Button>
+                                </Link>
                             </CardBody>
                         </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius='10%' />
+                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" />
                     </Flex>
                 </Card>
             </Container>
