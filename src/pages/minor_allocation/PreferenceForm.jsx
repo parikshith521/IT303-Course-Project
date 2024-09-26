@@ -73,40 +73,59 @@ export const PreferenceForm = () => {
     };
 
     return (
-        <Box maxW="100vw" maxH="100vh" mx="20px" mt={8} py={4} px={['auto', 'auto', 'auto', '150px']} borderWidth="1px" borderRadius="md" boxShadow="md">
-            <Heading fontFamily="'Sanchez', serif" size="xl" textAlign="center" mt={6} mb={8}>
+        <Box
+            maxW="100vw"
+            maxH="100vh"
+            mx={["10px", "20px", "40px"]}  // Adjust horizontal margin based on screen size
+            mt={8}
+            py={4}
+            px={['10px', '20px', '30px', '150px']}  // Adjust padding for different screen sizes
+            borderWidth="1px"
+            borderRadius="md"
+            boxShadow="md"
+            overflowX="auto"  // Handle horizontal overflow for smaller screens
+        >
+            <Heading fontFamily="'Sanchez', serif" size={['lg', 'xl']} textAlign="center" mt={6} mb={8}>
                 Minor Project Allocation Form
             </Heading>
-            <Text fontFamily="'Poppins', sans-serif" textAlign="center" mb={6}>Enter Guide Preference Order (1 being the highest preference)</Text>
 
-            {/* Create a table to display the data */}
-            <Table variant="simple">
-                <Thead>
-                    <Tr>
-                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Name</Th>
-                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Specialization</Th>
-                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Email</Th>
-                        <Th textAlign='center' fontFamily="'Poppins', sans-serif">Preference</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {Guides.map((person) => (
-                        <Tr key={person.id}>
-                            <Td fontFamily="'Poppins', sans-serif">{person.name}</Td>
-                            <Td fontFamily="'Poppins', sans-serif">{person.specialization}</Td>
-                            <Td fontFamily="'Poppins', sans-serif">{person.email}</Td>
-                            <Td fontFamily="'Poppins', sans-serif" maxW={'250px'}>
-                                <Input
-                                    type="number"
-                                    placeholder="Enter preference"
-                                    value={preferences[person.id]}
-                                    onChange={(e) => handlePreferenceChange(person.id, e.target.value)}
-                                />
-                            </Td>
+            <Text fontFamily="'Poppins', sans-serif" textAlign="center" mb={6} fontSize={['sm', 'md']}>
+                Enter Guide Preference Order (1 being the highest preference)
+            </Text>
+
+            {/* Make table responsive */}
+            <Box overflowX="auto">
+                <Table variant="simple" size="sm">
+                    <Thead>
+                        <Tr>
+                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Name</Th>
+                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Specialization</Th>
+                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Email</Th>
+                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Preference</Th>
                         </Tr>
-                    ))}
-                </Tbody>
-            </Table>
+                    </Thead>
+                    <Tbody>
+                        {Guides.map((person) => (
+                            <Tr key={person.id}>
+                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.name}</Td>
+                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.specialization}</Td>
+                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.email}</Td>
+                                <Td fontFamily="'Poppins', sans-serif" maxW={['100px', '250px']} overflowX="hidden">
+                                    <Input
+                                        type="number"
+                                        placeholder="Enter preference"
+                                        value={preferences[person.id]}
+                                        onChange={(e) => handlePreferenceChange(person.id, e.target.value)}
+                                        fontSize={['xs', 'sm']}  // Adjust input font size for small screens
+                                        minWidth="60px"
+                                        width={['60px', '100px']}  // Make the input responsive for mobile
+                                    />
+                                </Td>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </Box>
 
             {/* Center the submit button */}
             <Box display="flex" justifyContent="center" my={6}>
@@ -115,6 +134,7 @@ export const PreferenceForm = () => {
                     colorScheme="orange"
                     onClick={handleSubmit}
                     _hover={{ bg: 'orange.600', transform: 'scale(1.05)', transition: 'all 0.2s ease-in-out' }}
+                    fontSize={['xs', 'md']}  // Adjust button size
                 >
                     Submit Preferences
                 </Button>

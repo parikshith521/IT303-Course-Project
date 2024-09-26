@@ -46,6 +46,11 @@ export const DisplayCards = () => {
                 mx="auto"  // Center the container horizontally
                 alignContent="center"
                 justifyContent="center"
+                border="1px solid"  // Add a border to the container
+                borderColor="gray.200"  // Light gray border
+                boxShadow="md"  // Initial shadow
+                transition="box-shadow 0.3s ease"  // Smooth shadow transition
+                _hover={{ boxShadow: "xl" }}  // Shadow effect on hover
             >
                 <Heading fontFamily="'Poppins', serif" textAlign="center">
                     Project Details Are Given Below
@@ -53,7 +58,7 @@ export const DisplayCards = () => {
 
                 {/* Major Project Card */}
                 <Card
-                    mt="35px"
+                    mt="50px"  // Increased top margin
                     mx="auto"  // Center the card horizontally
                     p="6"
                     boxShadow="lg"
@@ -62,8 +67,8 @@ export const DisplayCards = () => {
                     transition="background 0.3s ease"  // Smooth transition for background
                     _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
                 >
-                    <Flex justify="space-between" align="center">
-                        <Box>
+                    <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }}>
+                        <Box textAlign={{ base: "center", md: "left" }}>
                             <CardHeader>
                                 <Heading size="xl" fontFamily="'Poppins', serif" color="black">
                                     Major Project
@@ -73,30 +78,30 @@ export const DisplayCards = () => {
                                 <Button
                                     colorScheme="orange"
                                     onClick={() => handleViewDetails('major')}
-                                    _hover={{ bg: 'orange.300', color: 'white' }}  // Change button color on card hover
+                                    _hover={{ bg: 'orange.300', color: 'white' }}
+                                    mb={{ base: 2, md: 0 }}  // Add margin between buttons for mobile
                                 >
                                     Apply
-                                </Button> {/* Open modal on click */}
-                                {/* Fill Preferences Button */}
+                                </Button>
                                 <Link to="/major-allocation">
                                     <Button
-                                        ml={4}  // Add margin between buttons
+                                        ml={{ md: 4 }}
                                         colorScheme="orange"
-                                        _hover={{ bg: 'orange.300', color: 'white' }}  // Hover effect for the button
+                                        _hover={{ bg: 'orange.300', color: 'white' }}
                                     >
                                         Apply
                                     </Button>
                                 </Link>
                             </CardBody>
                         </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" />
+                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" mt={{ base: 4, md: 0 }} />
                     </Flex>
                 </Card>
 
                 {/* Minor Project Card */}
                 <Card
-                    mt="30px"
-                    mb="30px"  // Added margin-bottom to the second card
+                    mt="50px"  // Increased top margin
+                    mb="50px"  // Increased bottom margin
                     mx="auto"  // Center the card horizontally
                     p="6"
                     boxShadow="lg"
@@ -105,8 +110,8 @@ export const DisplayCards = () => {
                     transition="background 0.3s ease"  // Smooth transition for background
                     _hover={{ bg: 'orange.400', boxShadow: "xl" }}  // Change background and shadow on hover
                 >
-                    <Flex justify="space-between" align="center">
-                        <Box>
+                    <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }}>
+                        <Box textAlign={{ base: "center", md: "left" }}>
                             <CardHeader>
                                 <Heading size="xl" fontFamily="'Poppins', serif" color="black">
                                     Minor Project
@@ -116,26 +121,27 @@ export const DisplayCards = () => {
                                 <Button
                                     colorScheme="orange"
                                     onClick={() => handleViewDetails('minor')}
-                                    _hover={{ bg: 'orange.300', color: 'white' }}  // Change button color on card hover
+                                    _hover={{ bg: 'orange.300', color: 'white' }}
+                                    mb={{ base: 2, md: 0 }}  // Add margin between buttons for mobile
                                 >
                                     Apply
-                                </Button> {/* Open modal on click */}
-                                {/* Fill Preferences Button */}
+                                </Button>
                                 <Link to="/minor-allocation">
                                     <Button
-                                        ml={4}  // Add margin between buttons
+                                        ml={{ md: 4 }}
                                         colorScheme="orange"
-                                        _hover={{ bg: 'orange.300', color: 'white' }}  // Hover effect for the button
+                                        _hover={{ bg: 'orange.300', color: 'white' }}
                                     >
                                         Apply
                                     </Button>
                                 </Link>
                             </CardBody>
                         </Box>
-                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" />
+                        <Image src={projectImage} alt="Project" boxSize="100px" objectFit="cover" borderRadius="10%" mt={{ base: 4, md: 0 }} />
                     </Flex>
                 </Card>
             </Container>
+
 
 
             {/* Modal for View Details */}
