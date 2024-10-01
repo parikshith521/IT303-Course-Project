@@ -32,7 +32,7 @@ import projectImage from '../assets/project.png';
 //exports cards for the major and minor project allotments
 export const DisplayCards = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [modalMessage, setModalMessage] = useState('');
+    const [modalMessage, setModalMessage] = useState('You are already assigned a Guide!');
     const [inInternship, setInInternship] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
@@ -45,7 +45,7 @@ export const DisplayCards = () => {
 
     // Handle view details through modal
     const handleViewDetails = (projectType) => {
-        if (projectType === 'major') {
+        if (projectType == 'major') {
             setModalMessage('You are already assigned a Guide!');
         } else {
             setModalMessage('Are you currently in an internship?');
@@ -213,6 +213,11 @@ export const DisplayCards = () => {
                                 )}
                             </>
                         )}
+                        {
+                            modalMessage === 'You are already assigned a Guide!' && <>
+                                <Text fontFamily="'Poppins'">{modalMessage}</Text>
+                            </>
+                        }
                     </ModalBody>
                     {inInternship === 'yes' && (
                         <ModalFooter>
