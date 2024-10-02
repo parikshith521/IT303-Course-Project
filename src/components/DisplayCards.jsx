@@ -45,13 +45,13 @@ export const DisplayCards = () => {
 
     // Handle view details through modal
     const handleViewDetails = (projectType) => {
-        if (projectType == 'major') {
+        if (projectType === 'major') {
             setModalMessage('You are already assigned a Guide!');
         } else {
             setModalMessage('Are you currently in an internship?');
         }
         setInInternship(null);
-        onOpen();
+        onOpen(); // Open modal
     };
 
     // Handle form input change
@@ -65,7 +65,7 @@ export const DisplayCards = () => {
         onClose();
     };
 
-    // Handle radio button change
+    // Handle radio button change for internship
     const handleInternshipChange = (value) => {
         setInInternship(value);
         if (value === 'no') {
@@ -86,8 +86,6 @@ export const DisplayCards = () => {
                 <Heading fontFamily="'Sanchez', serif" textAlign="center">
                     Project Details Are Given Below
                 </Heading>
-
-
 
                 {/* Major Project Card */}
                 <Card
@@ -112,7 +110,7 @@ export const DisplayCards = () => {
                         <Button
                             mr="5px"
                             colorScheme="orange"
-                            onClick={onOpen}  // Opens the modal
+                            onClick={() => handleViewDetails('major')}  // Opens the modal with the major project message
                             _hover={{ bg: 'orange.300', color: 'white' }}
                             mb={{ base: 2, md: 0 }}
                         >
@@ -129,7 +127,6 @@ export const DisplayCards = () => {
                         </Link>
                     </CardFooter>
                 </Card>
-
 
                 {/* Minor Project Card */}
                 <Card
@@ -154,7 +151,7 @@ export const DisplayCards = () => {
                         <Button
                             mr="5px"
                             colorScheme="orange"
-                            onClick={onAlertOpen} // Open internship decision dialog
+                            onClick={() => handleViewDetails('minor')} // Open internship decision dialog for minor project
                             _hover={{ bg: 'orange.300', color: 'white' }}
                             mb={{ base: 2, md: 0 }}
                         >
@@ -217,9 +214,7 @@ export const DisplayCards = () => {
                             </>
                         )}
                         {
-                            modalMessage === 'You are already assigned a Guide!' && <>
-                                <Text fontFamily="'Poppins'">{modalMessage}</Text>
-                            </>
+                            modalMessage === 'You are already assigned a Guide!' && <Text fontFamily="'Poppins'">{modalMessage}</Text>
                         }
                     </ModalBody>
                     {inInternship === 'yes' && (
@@ -233,4 +228,4 @@ export const DisplayCards = () => {
             </Modal>
         </>
     );
-}
+};

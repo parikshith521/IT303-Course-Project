@@ -1,71 +1,52 @@
 import React, { useState } from 'react';
 import {
-    Text, Box, Table, Thead, Tbody, Tr, Th, Td, Input, Button, Heading,
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, useDisclosure
+    Box, Text, Button, Heading, Select, UnorderedList, ListItem, IconButton,
+    useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton
 } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons'; // For delete button icon
 
-//import sample guide data
+// Import sample guide data
 import { Guides } from './GuideData';
 
-//component that displays a prefence form for guide allocation
 export const PreferenceForm = () => {
-
-    // State setup to store preferences & messages
-    const [preferences, setPreferences] = useState(
-        Guides.reduce((acc, person) => {
-            acc[person.id] = '';
-            return acc;
-        }, {})
-    );
-
+    const [availableGuides, setAvailableGuides] = useState(Guides); // Available guides for selection
+    const [selectedGuides, setSelectedGuides] = useState([]); // Selected guides
+    const [selectedGuide, setSelectedGuide] = useState(''); // Track the selected guide from the dropdown
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalMessage, setModalMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // Handle selection from dropdown
+    const handleSelectGuide = (event) => {
+        const guideName = event.target.value;
+        if (guideName === '') return;
 
-    const handlePreferenceChange = (id, value) => {
-        setPreferences({
-            ...preferences,
-            [id]: value,
-        });
+        // Add the selected guide to the list and remove it from available guides
+        const selectedGuide = availableGuides.find(guide => guide.name === guideName);
+        setSelectedGuides([...selectedGuides, selectedGuide]);
+        setAvailableGuides(availableGuides.filter(guide => guide.name !== guideName));
+        setSelectedGuide(''); // Reset dropdown
     };
 
-    // validating user inputs
-    const validatePreferences = () => {
-        const values = Object.values(preferences);
-
-        if (values.some(value => value === '')) {
-            return `All fields must contain numbers between 1 and ${Guides.length}.`;
-        }
-
-        const invalidValues = values.filter(value => value < 1 || value > Guides.length);
-        if (invalidValues.length > 0) {
-            return `All numbers must be between 1 and ${Guides.length}.`;
-        }
-
-        const uniqueValues = new Set(values);
-        if (uniqueValues.size !== values.length) {
-            return 'Each number must be unique.';
-        }
-
-        return '';
+    // Handle deletion from the selected list
+    const handleDeleteGuide = (guideName) => {
+        const deletedGuide = selectedGuides.find(guide => guide.name === guideName);
+        setSelectedGuides(selectedGuides.filter(guide => guide.name !== guideName)); // Remove from list
+        setAvailableGuides([...availableGuides, deletedGuide]); // Re-add to dropdown
     };
 
-    // submit handler that's connected to the modal
+    // Submit handler for form submission
     const handleSubmit = () => {
-        const validationError = validatePreferences();
-
-        if (validationError) {
-            setModalMessage(validationError);
-            setIsSuccess(false);
-        } else {
+        if (availableGuides.length === 0) {
+            // All guides have been selected, show success message
             setModalMessage('Preferences submitted successfully!');
             setIsSuccess(true);
-            console.log('Submitted Preferences:', preferences);
+        } else {
+            // Not all guides selected, show error message
+            setModalMessage('Please select all the available Guides in order of your preference.');
+            setIsSuccess(false);
         }
-
-        // Open the modal
-        onOpen();
+        onOpen(); // Open the modal
     };
 
     return (
@@ -79,49 +60,55 @@ export const PreferenceForm = () => {
             borderWidth="1px"
             borderRadius="md"
             boxShadow="md"
-            overflowX="auto"
+            bgGradient="linear(to-br, blue.200, violet.300)"
         >
             <Heading fontFamily="'Sanchez', serif" size={['lg', 'xl']} textAlign="center" mt={6} mb={8}>
                 Minor Project Allocation Form
             </Heading>
 
             <Text fontFamily="'Poppins', sans-serif" textAlign="center" mb={6} fontSize={['sm', 'md']}>
-                Enter Guide Preference Order (1 being the highest preference)
+                Select Your Guide Preferences
             </Text>
 
-            <Box overflowX="auto">
-                <Table variant="simple">
-                    <Thead>
-                        <Tr>
-                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Name</Th>
-                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Specialization</Th>
-                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Email</Th>
-                            <Th textAlign="center" fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>Preference</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {Guides.map((person) => (
-                            <Tr key={person.id}>
-                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.name}</Td>
-                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.specialization}</Td>
-                                <Td fontFamily="'Poppins', sans-serif" fontSize={['xs', 'sm']}>{person.email}</Td>
-                                <Td fontFamily="'Poppins', sans-serif" maxW={['100px', '250px']} overflowX="hidden">
-                                    <Input
-                                        type="number"
-                                        placeholder="Enter preference"
-                                        value={preferences[person.id]}
-                                        onChange={(e) => handlePreferenceChange(person.id, e.target.value)}
-                                        fontSize={['xs', 'sm']}
+            {/* Dropdown menu */}
+            <Select
+                placeholder="Select a Guide"
+                value={selectedGuide}
+                onChange={handleSelectGuide}
+                fontFamily="'Poppins', sans-serif"
+                mb={6}
+            >
+                {availableGuides.map((guide) => (
+                    <option key={guide.id} value={guide.name}>
+                        {guide.name}
+                    </option>
+                ))}
+            </Select>
 
-                                    />
-                                </Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </Box>
+            {/* Ordered list of selected guides */}
+            <UnorderedList fontFamily="'Poppins', sans-serif" mb={6}>
+                {selectedGuides.map((guide, index) => (
+                    <ListItem
+                        key={guide.id}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        mb={4} // Added margin-bottom to create space between list items
+                    >
+                        {`${index + 1}. ${guide.name}`}
+                        <IconButton
+                            icon={<CloseIcon />}
+                            size="sm"
+                            colorScheme="red"
+                            onClick={() => handleDeleteGuide(guide.name)}
+                            aria-label="Delete guide"
+                            ml={4}
+                        />
+                    </ListItem>
+                ))}
+            </UnorderedList>
 
-            {/* form submit button */}
+
             <Box display="flex" justifyContent="center" my={6}>
                 <Button
                     fontFamily="'Poppins', sans-serif"
@@ -134,7 +121,7 @@ export const PreferenceForm = () => {
                 </Button>
             </Box>
 
-            {/* modal to handle success and failure */}
+            {/* Modal for error/success messages */}
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
                 <ModalContent>
@@ -143,7 +130,6 @@ export const PreferenceForm = () => {
                     <ModalBody fontFamily="'Poppins', sans-serif">
                         {modalMessage}
                     </ModalBody>
-
                     <ModalFooter>
                         <Button colorScheme={isSuccess ? 'green' : 'red'} mr={3} onClick={onClose}>
                             Close
