@@ -1,44 +1,76 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Changed useHistory to useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import {
-    Card, CardHeader, CardFooter, HStack, Heading, Spacer, Image, Button,
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,
-    ModalFooter, FormControl, FormLabel, Input, AlertDialog,
-    AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody,
-    AlertDialogFooter, Container, useDisclosure
+    Container,
+    Card,
+    CardHeader,
+    Heading,
+    Button,
+    Image,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    CardFooter,
+    HStack,
+    Spacer,
+    FormControl,
+    FormLabel,
+    Input,
+    RadioGroup,
+    Radio,
+    Text,
+    Stack
 } from '@chakra-ui/react';
 
-// Fetch assets
 import projectImage from '../assets/project.png';
 
+//exports cards for the major and minor project allotments
 export const DisplayCards = () => {
-    const navigate = useNavigate(); // Updated for React Router v6
-
-    // Modal and Alert Dialog hooks
-    const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
-    const { isOpen: isAlertOpen, onOpen: onAlertOpen, onClose: onAlertClose } = useDisclosure();
-
-    // Internship Form State
-    const [internshipDetails, setInternshipDetails] = useState({
-        duration: '',
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [modalMessage, setModalMessage] = useState('You are already assigned a Guide!');
+    const [inInternship, setInInternship] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        rollNumber: '',
         companyName: '',
         managerName: '',
-        studentName: ''
+        duration: ''
     });
+    const navigate = useNavigate();
 
-    // Handling form input changes
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setInternshipDetails(prevState => ({ ...prevState, [name]: value }));
+    // Handle view details through modal
+    const handleViewDetails = (projectType) => {
+        if (projectType == 'major') {
+            setModalMessage('You are already assigned a Guide!');
+        } else {
+            setModalMessage('Are you currently in an internship?');
+        }
+        setInInternship(null);
+        onOpen();
     };
 
-    // Handling Internship decision
-    const handleInternshipDecision = (decision) => {
-        if (decision === 'yes') {
-            onAlertClose(); // Close alert dialog
-            onModalOpen();  // Open modal to fill in internship details
-        } else if (decision === 'no') {
-            navigate('/minor-allocation'); // Redirect to preference page
+    // Handle form input change
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    // Handle form submission
+    const handleSubmit = () => {
+        console.log(formData);
+        onClose();
+    };
+
+    // Handle radio button change
+    const handleInternshipChange = (value) => {
+        setInInternship(value);
+        if (value === 'no') {
+            onClose();
+            navigate('/minor-allocation');
         }
     };
 
@@ -77,7 +109,6 @@ export const DisplayCards = () => {
                         </HStack>
                     </CardHeader>
                     <CardFooter px="10" mb="2" fontFamily="'Poppins', serif">
-                        {/* First Apply Button triggers modal */}
                         <Button
                             mr="5px"
                             colorScheme="orange"
@@ -88,7 +119,8 @@ export const DisplayCards = () => {
                             Apply
                         </Button>
                         <Link to="/major-allocation">
-                            <Button ml="5px"
+                            <Button
+                                ml="5px"
                                 colorScheme="orange"
                                 _hover={{ bg: 'orange.300', color: 'white' }}
                             >
@@ -129,7 +161,11 @@ export const DisplayCards = () => {
                             Apply
                         </Button>
                         <Link to="/minor-allocation">
-                            <Button ml="5px" colorScheme="orange" _hover={{ bg: 'orange.300', color: 'white' }}>
+                            <Button
+                                ml="5px"
+                                colorScheme="orange"
+                                _hover={{ bg: 'orange.300', color: 'white' }}
+                            >
                                 Apply
                             </Button>
                         </Link>
@@ -137,108 +173,64 @@ export const DisplayCards = () => {
                 </Card>
             </Container>
 
-            {/* Alert Dialog for Internship Question */}
-            <AlertDialog
-                isOpen={isAlertOpen}
-                leastDestructiveRef={undefined}
-                onClose={onAlertClose}
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent>
-                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Internship Confirmation
-                        </AlertDialogHeader>
-
-                        <AlertDialogBody>
-                            Have you done an internship?
-                        </AlertDialogBody>
-
-                        <AlertDialogFooter>
-                            <Button onClick={() => handleInternshipDecision('no')} colorScheme="orange">
-                                No
-                            </Button>
-                            <Button onClick={() => handleInternshipDecision('yes')} ml={3}>
-                                Yes
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
-
             {/* Modal for Internship Details */}
-            <Modal isOpen={isModalOpen} onClose={onModalClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Internship Details</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>Duration</FormLabel>
-                            <Input
-                                placeholder="Enter duration"
-                                name="duration"
-                                value={internshipDetails.duration}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Company Name</FormLabel>
-                            <Input
-                                placeholder="Enter company name"
-                                name="companyName"
-                                value={internshipDetails.companyName}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Manager Name</FormLabel>
-                            <Input
-                                placeholder="Enter manager name"
-                                name="managerName"
-                                value={internshipDetails.managerName}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Student Name</FormLabel>
-                            <Input
-                                placeholder="Enter your name"
-                                name="studentName"
-                                value={internshipDetails.studentName}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme="orange" mr={3} onClick={onModalClose}>
-                            Submit
-                        </Button>
-                        <Button onClick={onModalClose}>Cancel</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-            {/* Modal for "You have been allotted a Guide!" */}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Notice</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
-                        You have been allotted a Guide!
+                    <ModalBody color="black" fontFamily="'Poppins', serif" mb="20px">
+                        {modalMessage === 'Are you currently in an internship?' && (
+                            <>
+                                <Text fontFamily='Poppins, sans-serif'>Are you currently doing an internship?</Text>
+                                <RadioGroup onChange={handleInternshipChange} value={inInternship}>
+                                    <Stack direction="row">
+                                        <Radio value="yes">Yes</Radio>
+                                        <Radio value="no">No</Radio>
+                                    </Stack>
+                                </RadioGroup>
+
+                                {inInternship === 'yes' && (
+                                    <form>
+                                        <FormControl mt="4">
+                                            <FormLabel>Name</FormLabel>
+                                            <Input name="name" value={formData.name} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Roll Number</FormLabel>
+                                            <Input name="rollNumber" value={formData.rollNumber} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Company Name</FormLabel>
+                                            <Input name="companyName" value={formData.companyName} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Manager's Name</FormLabel>
+                                            <Input name="managerName" value={formData.managerName} onChange={handleInputChange} />
+                                        </FormControl>
+                                        <FormControl mt="4">
+                                            <FormLabel>Duration (in months)</FormLabel>
+                                            <Input name="duration" value={formData.duration} onChange={handleInputChange} />
+                                        </FormControl>
+                                    </form>
+                                )}
+                            </>
+                        )}
+                        {
+                            modalMessage === 'You are already assigned a Guide!' && <>
+                                <Text fontFamily="'Poppins'">{modalMessage}</Text>
+                            </>
+                        }
                     </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme="orange" onClick={onClose}>
-                            Okay
-                        </Button>
-                    </ModalFooter>
+                    {inInternship === 'yes' && (
+                        <ModalFooter>
+                            <Button colorScheme="orange" onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                        </ModalFooter>
+                    )}
                 </ModalContent>
             </Modal>
         </>
     );
-};
-
-export default DisplayCards;
+}

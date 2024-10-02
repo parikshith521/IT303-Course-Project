@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import {
     Flex, Box, Spacer, Image, HStack
 } from '@chakra-ui/react';
@@ -16,7 +17,7 @@ export const NavBar = () => {
             <Spacer />
             <HStack align="center" >
                 <Box p='4' color='black' fontSize={['large', '2xl']} cursor='pointer' fontFamily='poppins' transition="background 0.3s ease, color 0.3s ease"
-                    borderRadius="md" _hover={{ bg: 'orange.400', color: 'white' }}>Home</Box>
+                    borderRadius="md" _hover={{ bg: 'orange.400', color: 'white' }}><Link to="/">Home</Link></Box>
                 <Box p='4' color='black' fontSize={['large', '2xl']} display="flex" alignItems="center" cursor='pointer' fontFamily='poppins' transition="background 0.3s ease, color 0.3s ease"
                     borderRadius="md" _hover={{ bg: 'orange.400', color: 'white' }}>
                     Profile

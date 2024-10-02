@@ -20,4 +20,4 @@ function App() {
 }
 
 export default App;
-// Wrap the App in ChakraProvider (if not already in your entry point)
+
