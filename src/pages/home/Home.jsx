@@ -5,12 +5,10 @@ import { DisplayCards } from '../../components/DisplayCards';
 //landing page
 export const Home = () => {
     return (
-        <>
             <VStack spacing={0} align="stretch">
                 <NavBar />
                 <DisplayCards />
-            </VStack>
+        </VStack>
 
-        </>
     )
 }
